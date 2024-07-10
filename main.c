@@ -28,59 +28,54 @@ int main ()
     while (sair != 'x')
     {
         lerMenuSelecao (&menuSelecao, &atv);
-        if (atv == 1)
+        switch (menuSelecao)
         {
-            encerrar ();
-            break;
-        }
-        else
-        {
-            if (menuSelecao == 1)
-            {
+            case 1:
                 fflush (stdin);
                 lerString (string);
                 validacao (string, &atv);
                 if (atv == 1)
                 {
-                    encerrar ();
-                    break;
+                    fflush (stdin);
+                    lerString (string);
+                    validacao (string, &atv);
+                    atv = 0;
                 }
                 converter (string, vet);
                 converterBinarioEmDecimal (string, vet);
                 printf ("\nDigite x para sair ou c para continuar\n");
                 scanf ("%c", &sair);
-            }
-            else if (menuSelecao == 2)
-            {
+            break;
+            case 2:
                 fflush (stdin);
                 lerNumber (&number, &atv);
                 if (atv == 1)
                 {
-                    encerrar ();
-                    break;
+                    fflush (stdin);
+                    lerNumber (&number, &atv);
+                    atv = 0;
                 }
                 converterDecimalEmBinario (vet, vet2, number, &tam);
                 imprimirConversaoDb (tam, vet2, number);
-            }
+                printf ("\nDigite x para sair ou c para continuar\n");
+                fflush (stdin);
+                scanf ("%c", &sair);
+            break;
+            default:
+                printf ("\nSelecione um menu vÃ¡lido!\n");
         }
     }
 }
 
 void lerMenuSelecao (int *menuSelecao, int *atv)
 {
-    printf ("Selecione as opções a seguir:\n1. Converter binário em decimal.\n2. Converter decimal em binário\n");
+    printf ("Selecione as opÃ§Ãµes a seguir:\n1. Converter binÃ¡rio em decimal.\n2. Converter decimal em binÃ¡rio\n");
     scanf ("%d", menuSelecao);
-
-    if (!(*menuSelecao >= 1 && *menuSelecao <= 2))
-    {
-        printf ("\nSelecione um menu válido!\n");
-        *atv = 1;
-    }
 }
 
 void lerString (char string [MAX])
 {
-    printf ("Insira o número binário!\n");
+    printf ("Insira o nÃºmero binÃ¡rio!\n");
     fgets (string, MAX, stdin);
 
     if (strlen (string) < MAX)
@@ -98,7 +93,7 @@ void validacao (char string [MAX], int *atv)
         {
             if ((string [x] - '0' < 0) || (string [x] - '0' > 1))
             {
-                printf ("Nenhum dígito binário pode ser negativo ou maior que 1!\n");
+                printf ("Nenhum dÃ­gito binÃ¡rio pode ser negativo ou maior que 1!\n");
                 *atv = 1;
                 break;
 
@@ -106,7 +101,7 @@ void validacao (char string [MAX], int *atv)
         }
         else
         {
-            printf ("Os dígitos binários só podem ser números e positivos!");
+            printf ("Os dÃ­gitos binÃ¡rios sÃ³ podem ser nÃºmeros e positivos!");
             *atv = 1;
             break;
         }
@@ -138,16 +133,16 @@ void converterBinarioEmDecimal (char string [MAX], int vet [MAX])
         soma = soma + vet [z];
     }
 
-    printf ("\nO número binário %s em decimal é dado por: %d\n", string, soma);
+    printf ("\nO nÃºmero binÃ¡rio %s em decimal Ã© dado por: %d\n", string, soma);
 }
 
 void lerNumber (int *number, int *atv)
 {
-    printf ("Insira o número:\t");
+    printf ("Insira o nÃºmero:\t");
     scanf ("%d", number);
     if (*number < 0)
     {
-        printf ("O número não pode ser negativo!\n");
+        printf ("O nÃºmero nÃ£o pode ser negativo!\n");
         *atv = 1;
     }
 }
@@ -178,7 +173,7 @@ void converterDecimalEmBinario (int vet [MAX], int vet2 [MAX], int number, int *
 void imprimirConversaoDb (int tam, int vet2 [MAX], int number)
 {
     int j;
-    printf ("O número %d em base binária, é: ", number);
+    printf ("O nÃºmero %d em base binÃ¡ria, Ã©: ", number);
     for (j = 0; j < tam; j ++)
     {
         printf ("%d", vet2 [j]);
