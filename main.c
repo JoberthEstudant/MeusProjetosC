@@ -34,12 +34,11 @@ int main ()
                 fflush (stdin);
                 lerString (string);
                 validacao (string, &atv);
-                if (atv == 1)
+                while (atv == 1)
                 {
                     fflush (stdin);
                     lerString (string);
                     validacao (string, &atv);
-                    atv = 0;
                 }
                 converter (string, vet);
                 converterBinarioEmDecimal (string, vet);
@@ -49,11 +48,10 @@ int main ()
             case 2:
                 fflush (stdin);
                 lerNumber (&number, &atv);
-                if (atv == 1)
+                while (atv == 1)
                 {
                     fflush (stdin);
                     lerNumber (&number, &atv);
-                    atv = 0;
                 }
                 converterDecimalEmBinario (vet, vet2, number, &tam);
                 imprimirConversaoDb (tam, vet2, number);
@@ -69,13 +67,13 @@ int main ()
 
 void lerMenuSelecao (int *menuSelecao, int *atv)
 {
-    printf ("Selecione as opções a seguir:\n1. Converter binário em decimal.\n2. Converter decimal em binário\n");
+    printf ("Selecione as opções a seguir:\n1. Converter binário em decimal.\n2. Converter decimal em binário.\n");
     scanf ("%d", menuSelecao);
 }
 
 void lerString (char string [MAX])
 {
-    printf ("Insira o número binário!\n");
+    printf ("\nDigite um número binário!\n");
     fgets (string, MAX, stdin);
 
     if (strlen (string) < MAX)
@@ -84,26 +82,20 @@ void lerString (char string [MAX])
     }
 }
 
-void validacao (char string [MAX], int *atv)
+void validacao (char string [MAX], int *atv) // arrummar
 {
     int x;
     for (x = 0; x < strlen (string); x ++)
     {
-        if (string [x] >= '0' && string [x] <= '9')
+        if ((string [x] - '0' < 0) || (string [x] - '0' > 1))
         {
-            if ((string [x] - '0' < 0) || (string [x] - '0' > 1))
-            {
-                printf ("Nenhum dígito binário pode ser negativo ou maior que 1!\n");
-                *atv = 1;
-                break;
-
-            }
+            printf ("\nInsira um número binário válido!\n");
+            *atv = 1;
+            break;
         }
         else
         {
-            printf ("Os dígitos binários só podem ser números e positivos!");
-            *atv = 1;
-            break;
+            *atv = 0;
         }
     }
 }
@@ -138,18 +130,21 @@ void converterBinarioEmDecimal (char string [MAX], int vet [MAX])
 
 void lerNumber (int *number, int *atv)
 {
-    printf ("Insira o número:\t");
+    printf ("\nInsira um número decimal:\t");
     scanf ("%d", number);
     if (*number < 0)
     {
-        printf ("O número não pode ser negativo!\n");
+        printf ("\nO número não pode ser negativo!\n");
         *atv = 1;
+    }
+    else
+    {
+        *atv = 0;
     }
 }
 
 void converterDecimalEmBinario (int vet [MAX], int vet2 [MAX], int number, int *tam)
 {
-
     int quociente = number;
 	int resto;
     int x = 0, y;
@@ -160,7 +155,6 @@ void converterDecimalEmBinario (int vet [MAX], int vet2 [MAX], int number, int *
         vet [x] = resto;
         x++;
     }
-
     *tam = x;
     for (y = 0; y < *tam; y ++)
     {
@@ -169,11 +163,10 @@ void converterDecimalEmBinario (int vet [MAX], int vet2 [MAX], int number, int *
     }
 }
 
-
 void imprimirConversaoDb (int tam, int vet2 [MAX], int number)
 {
     int j;
-    printf ("O número %d em base binária, é: ", number);
+    printf ("\nO número %d em base binária, é: ", number);
     for (j = 0; j < tam; j ++)
     {
         printf ("%d", vet2 [j]);
